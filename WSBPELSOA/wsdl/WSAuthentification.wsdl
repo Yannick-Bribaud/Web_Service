@@ -1,0 +1,49 @@
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.authentication.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://services.authentication.com/" name="WSAuthentificationService">
+<types>
+<xs:schema xmlns:tns="http://services.authentication.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.authentication.com/">
+<xs:element name="authentifier" type="tns:authentifier"/>
+<xs:element name="authentifierResponse" type="tns:authentifierResponse"/>
+<xs:complexType name="authentifier">
+<xs:sequence>
+<xs:element name="login" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="role" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="authentifierResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+</types>
+<message name="authentifier">
+<part name="parameters" element="tns:authentifier"/>
+</message>
+<message name="authentifierResponse">
+<part name="parameters" element="tns:authentifierResponse"/>
+</message>
+<portType name="WSAuthentification">
+<operation name="authentifier">
+<input wsam:Action="http://services.authentication.com/WSAuthentification/authentifierRequest" message="tns:authentifier"/>
+<output wsam:Action="http://services.authentication.com/WSAuthentification/authentifierResponse" message="tns:authentifierResponse"/>
+</operation>
+</portType>
+<binding name="WSAuthentificationPortBinding" type="tns:WSAuthentification">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="authentifier">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+</binding>
+<service name="WSAuthentificationService">
+<port name="WSAuthentificationPort" binding="tns:WSAuthentificationPortBinding">
+<soap:address location="http://localhost:8185/services/"/>
+</port>
+</service>
+</definitions>

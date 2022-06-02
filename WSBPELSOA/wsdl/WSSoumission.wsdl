@@ -1,0 +1,48 @@
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.soumission.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://services.soumission.com/" name="WSSoumissionService">
+<types>
+<xs:schema xmlns:tns="http://services.soumission.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.soumission.com/">
+<xs:element name="soumettre" type="tns:soumettre"/>
+<xs:element name="soumettreResponse" type="tns:soumettreResponse"/>
+<xs:complexType name="soumettre">
+<xs:sequence>
+<xs:element name="matricule" type="xs:string" minOccurs="0"/>
+<xs:element name="duree" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="soumettreResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+</types>
+<message name="soumettre">
+<part name="parameters" element="tns:soumettre"/>
+</message>
+<message name="soumettreResponse">
+<part name="parameters" element="tns:soumettreResponse"/>
+</message>
+<portType name="WSSoumission">
+<operation name="soumettre">
+<input wsam:Action="http://services.soumission.com/WSSoumission/soumettreRequest" message="tns:soumettre"/>
+<output wsam:Action="http://services.soumission.com/WSSoumission/soumettreResponse" message="tns:soumettreResponse"/>
+</operation>
+</portType>
+<binding name="WSSoumissionPortBinding" type="tns:WSSoumission">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="soumettre">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+</binding>
+<service name="WSSoumissionService">
+<port name="WSSoumissionPort" binding="tns:WSSoumissionPortBinding">
+<soap:address location="http://localhost:8186/services/"/>
+</port>
+</service>
+</definitions>
